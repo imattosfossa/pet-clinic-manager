@@ -1,0 +1,12 @@
+com/idea/petclinicmanager/user/repository/IUserRepository.class
+com/idea/petclinicmanager/security/SecurityConfigurations.class
+com/idea/petclinicmanager/user/entity/User.class
+com/idea/petclinicmanager/security/SecurityFilter.class
+com/idea/petclinicmanager/security/controller/AuthenticationController.class
+com/idea/petclinicmanager/security/service/AuthorizationService.class
+com/idea/petclinicmanager/security/dto/RegisterDTO.class
+com/idea/petclinicmanager/security/dto/AuthenticationDTO.class
+com/idea/petclinicmanager/PetClinicManagerApplication.class
+com/idea/petclinicmanager/user/entity/UserRole.class
+com/idea/petclinicmanager/security/dto/LoginResponseDTO.class
+com/idea/petclinicmanager/security/TokenService.class

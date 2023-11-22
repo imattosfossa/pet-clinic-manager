@@ -1,0 +1,12 @@
+/home/pessoal/developer/workspace/pet-clinic-manager/pet-clinic-manager/src/main/java/com/idea/petclinicmanager/user/entity/UserRole.java
+/home/pessoal/developer/workspace/pet-clinic-manager/pet-clinic-manager/src/main/java/com/idea/petclinicmanager/security/SecurityConfigurations.java
+/home/pessoal/developer/workspace/pet-clinic-manager/pet-clinic-manager/src/main/java/com/idea/petclinicmanager/security/controller/AuthenticationController.java
+/home/pessoal/developer/workspace/pet-clinic-manager/pet-clinic-manager/src/main/java/com/idea/petclinicmanager/user/entity/User.java
+/home/pessoal/developer/workspace/pet-clinic-manager/pet-clinic-manager/src/main/java/com/idea/petclinicmanager/security/service/AuthorizationService.java
+/home/pessoal/developer/workspace/pet-clinic-manager/pet-clinic-manager/src/main/java/com/idea/petclinicmanager/user/repository/IUserRepository.java
+/home/pessoal/developer/workspace/pet-clinic-manager/pet-clinic-manager/src/main/java/com/idea/petclinicmanager/security/dto/LoginResponseDTO.java
+/home/pessoal/developer/workspace/pet-clinic-manager/pet-clinic-manager/src/main/java/com/idea/petclinicmanager/security/TokenService.java
+/home/pessoal/developer/workspace/pet-clinic-manager/pet-clinic-manager/src/main/java/com/idea/petclinicmanager/security/SecurityFilter.java
+/home/pessoal/developer/workspace/pet-clinic-manager/pet-clinic-manager/src/main/java/com/idea/petclinicmanager/PetClinicManagerApplication.java
+/home/pessoal/developer/workspace/pet-clinic-manager/pet-clinic-manager/src/main/java/com/idea/petclinicmanager/security/dto/AuthenticationDTO.java
+/home/pessoal/developer/workspace/pet-clinic-manager/pet-clinic-manager/src/main/java/com/idea/petclinicmanager/security/dto/RegisterDTO.java
