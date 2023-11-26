@@ -1,12 +1,14 @@
 package com.idea.petclinicmanager.user.entity;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -34,16 +36,25 @@ public class User implements UserDetails {
     private String id;
     private String email;
     private String password;
+    private String name;
+    private String document;
+    
     private UserRole role;
     private Boolean active;
     private Boolean confirmed;
+    
+    @Column(name="date_of_birth")
+    private Date dateOfBirth;
 
-    public User(String email, String password, UserRole role, Boolean active, Boolean confirmed){
+    public User(String email, String password, UserRole role, Boolean active, Boolean confirmed, Date dateOfBirth, String document, String name){
         this.email = email;
         this.password = password;
         this.role = role;
         this.active = active;
         this.confirmed = confirmed;
+        this.dateOfBirth = dateOfBirth;
+        this.document = document;
+        this.name = name;
     }
 
     @Override

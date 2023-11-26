@@ -60,7 +60,7 @@ public class AuthenticationController {
     	try {
     		if (this.repository.findByEmail(register.email()) != null) throw new BusinessException("There is already an account with the " + register.email() + " login");
 	        String encryptedPassword = new BCryptPasswordEncoder().encode(register.password());
-	        User newUser = new User(register.email(), encryptedPassword, register.role(), false, false);
+	        User newUser = new User(register.email(), encryptedPassword, register.role(), false, false, register.dateOfBirth(), register.document(), register.name());
 	
 	        this.repository.save(newUser);
 	
@@ -111,6 +111,6 @@ public class AuthenticationController {
     	user.setConfirmed(true);
     	repository.save(user);
     	
-    	return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    	return new ResponseEntity<>("Cadastro confirmado com sucesso!", HttpStatus.ACCEPTED);
     }
 }
