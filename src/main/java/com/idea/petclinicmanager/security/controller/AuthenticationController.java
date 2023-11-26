@@ -10,11 +10,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.idea.petclinicmanager.email.dto.Email;
+import com.idea.petclinicmanager.email.service.IEmailService;
 import com.idea.petclinicmanager.exceptions.BusinessException;
 import com.idea.petclinicmanager.security.TokenService;
 import com.idea.petclinicmanager.security.dto.AuthenticationDTO;
@@ -36,6 +37,9 @@ public class AuthenticationController {
    
     @Autowired
     private TokenService tokenService;
+    
+    @Autowired
+	private IEmailService emailService;
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody @Valid AuthenticationDTO authentication) {
@@ -56,11 +60,37 @@ public class AuthenticationController {
     	try {
     		if (this.repository.findByEmail(register.email()) != null) throw new BusinessException("There is already an account with the " + register.email() + " login");
 	        String encryptedPassword = new BCryptPasswordEncoder().encode(register.password());
-	        User newUser = new User(register.email(), encryptedPassword, register.role(), false);
+	        User newUser = new User(register.email(), encryptedPassword, register.role(), false, false);
 	
 	        this.repository.save(newUser);
 	
 	        String token = tokenService.generateToken(newUser);
+
+	        Email email = new Email();
+	        email.setEmailFrom(newUser.getEmail());
+	        email.setEmailTo(newUser.getEmail());
+	        email.setEmailSubject("Confirmação de e-mail Pet Clinic Manager");
+	        email.setEmailContent("<!DOCTYPE html>\n"
+	                + "<html lang=\"en\">\n"
+	                + "<head>\n"
+	                + "    <meta charset=\"UTF-8\">\n"
+	                + "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n"
+	                + "    <title>Confirmação de Senha</title>\n"
+	                + "</head>\n"
+	                + "<body>\n"
+	                + "    <h2>Confirmação de Senha</h2>\n"
+	                + "    <p>Obrigado por confirmar sua senha! Clique no botão abaixo para finalizar o processo:</p>\n"
+	                + "\n"
+	                + "    <!-- Formulário de Confirmação -->\n"
+	                + "    <form method=\"post\" action=\"http://localhost:8080/auth/confirmed/" + newUser.getId() + "\">\n"
+	                + "        <button type=\"submit\" style=\"padding: 10px; background-color: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer;\">Confirmar Senha</button>\n"
+	                + "    </form>\n"
+	                + "\n"
+	                + "    <p>Obrigado!</p>\n"
+	                + "</body>\n"
+	                + "</html>\n"
+	                + "");
+	        emailService.sendEmail(email);
 
 	    	return new ResponseEntity<>(new LoginResponseDTO(token), HttpStatus.CREATED);
     	} catch (Exception ex) {
@@ -68,16 +98,17 @@ public class AuthenticationController {
     	}
     }
     
-    @PutMapping("/active/{id}")
-    public ResponseEntity<?> active(@PathVariable String id) {
+    @PostMapping("/confirmed/{id}")
+    public ResponseEntity<?> confirmed(@PathVariable String id) {
     	Optional<User> userOptional = repository.findById(id);
         
-        if (!userOptional.isPresent()) {
+        if (userOptional.isEmpty()) {
         	throw new BusinessException("User not found");
         }
         
         User user = userOptional.get();
     	user.setActive(true);
+    	user.setConfirmed(true);
     	repository.save(user);
     	
     	return new ResponseEntity<>(HttpStatus.ACCEPTED);

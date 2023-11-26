@@ -36,12 +36,14 @@ public class User implements UserDetails {
     private String password;
     private UserRole role;
     private Boolean active;
+    private Boolean confirmed;
 
-    public User(String email, String password, UserRole role, Boolean active){
+    public User(String email, String password, UserRole role, Boolean active, Boolean confirmed){
         this.email = email;
         this.password = password;
         this.role = role;
         this.active = active;
+        this.confirmed = confirmed;
     }
 
     @Override
