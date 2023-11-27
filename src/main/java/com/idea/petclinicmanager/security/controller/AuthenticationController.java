@@ -21,6 +21,7 @@ import com.idea.petclinicmanager.security.TokenService;
 import com.idea.petclinicmanager.security.dto.AuthenticationDTO;
 import com.idea.petclinicmanager.security.dto.LoginResponseDTO;
 import com.idea.petclinicmanager.security.dto.RegisterDTO;
+import com.idea.petclinicmanager.user.UserThreadLocal;
 import com.idea.petclinicmanager.user.entity.User;
 import com.idea.petclinicmanager.user.repository.IUserRepository;
 
@@ -45,6 +46,7 @@ public class AuthenticationController {
     public ResponseEntity<LoginResponseDTO> login(@RequestBody @Valid AuthenticationDTO authentication) {
     	var usernamePassword = new UsernamePasswordAuthenticationToken(authentication.email(), authentication.password());
         var auth = this.authenticationManager.authenticate(usernamePassword);
+        
         User user = (User) auth.getPrincipal();
         if (user.getActive() == null || user.getActive() == false) {
         	throw new BusinessException("Email confirmation required.");
@@ -52,6 +54,7 @@ public class AuthenticationController {
         
         String token = tokenService.generateToken(user);
 
+        UserThreadLocal.set(user);
     	return new ResponseEntity<>(new LoginResponseDTO(token), HttpStatus.ACCEPTED);
     }
 
