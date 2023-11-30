@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.idea.petclinicmanager.user.UserThreadLocal;
+import com.idea.petclinicmanager.user.entity.User;
 import com.idea.petclinicmanager.user.repository.IUserRepository;
 
 import jakarta.servlet.FilterChain;
@@ -28,10 +30,24 @@ public class SecurityFilter extends OncePerRequestFilter {
         var token = this.recoverToken(request);
         if(token != null){
             var email = tokenService.validateToken(token);
-            UserDetails user = userRepository.findByEmail(email);
+            UserDetails userDetails = userRepository.findByEmail(email);
+           
 
-            var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+            var authentication = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
+            
+            try {
+            	User user = (User) userDetails;
+				UserThreadLocal.set(new User(
+						user.getId(), 
+						user.getName(),
+						user.getEmail(), 
+						user.getDocument()));
+				System.out.println(user.getId());
+				
+			} catch (Exception e) {
+				throw new com.idea.petclinicmanager.exceptions.Exception(e.getMessage());
+			}
         }
         filterChain.doFilter(request, response);
     }

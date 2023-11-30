@@ -1,6 +1,7 @@
 package com.idea.petclinicmanager.client.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -35,4 +36,5 @@ public class Client implements Serializable {
     private String name;
     private String email;
     private String document;
+    private Date createDate;
 }

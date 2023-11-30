@@ -21,7 +21,6 @@ import com.idea.petclinicmanager.security.TokenService;
 import com.idea.petclinicmanager.security.dto.AuthenticationDTO;
 import com.idea.petclinicmanager.security.dto.LoginResponseDTO;
 import com.idea.petclinicmanager.security.dto.RegisterDTO;
-import com.idea.petclinicmanager.user.UserThreadLocal;
 import com.idea.petclinicmanager.user.entity.User;
 import com.idea.petclinicmanager.user.repository.IUserRepository;
 
@@ -54,7 +53,6 @@ public class AuthenticationController {
         
         String token = tokenService.generateToken(user);
 
-        UserThreadLocal.set(user);
     	return new ResponseEntity<>(new LoginResponseDTO(token), HttpStatus.ACCEPTED);
     }
 

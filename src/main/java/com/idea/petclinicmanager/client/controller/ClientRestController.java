@@ -36,8 +36,10 @@ public class ClientRestController {
     }
 	
 	@GetMapping
-    public ResponseEntity<Page<Client>> findAll(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size) {
-        Page<Client> clientPage = clientService.findAll(page, size);
+    public ResponseEntity<Page<Client>> findAll(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "10") int size,
+    		@RequestParam(defaultValue = "createDate") String sortField, @RequestParam(defaultValue = "DESC") String sortType,
+    		@RequestParam String document, @RequestParam String name, @RequestParam String email) {
+        Page<Client> clientPage = clientService.findAll(page, size, document, name, email, sortField, sortType);
         return new ResponseEntity<>(clientPage, HttpStatus.ACCEPTED);
     }
 }

@@ -56,6 +56,13 @@ public class User implements UserDetails {
         this.document = document;
         this.name = name;
     }
+    
+    public User(String id, String name, String email, String document) {
+    	this.id = id;
+    	this.name = name;
+        this.email = email;
+        this.document = document;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
